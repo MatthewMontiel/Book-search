@@ -1,7 +1,6 @@
-// see SignupForm.js for comments
-import React, { useState } from 'react';
+mport React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useMutation } from 'apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { LOGIN_USER } from '../graphql/mutations';
 import Auth from '../utils/auth';
@@ -10,8 +9,9 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [loginUser, { error }] = useMutation(LOGIN_USER);
 
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -49,7 +49,7 @@ const LoginForm = () => {
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          You must enter the correct email and password to proceed!
+          Something went wrong with your login credentials!
         </Alert>
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='email'>Email</Form.Label>
@@ -61,7 +61,7 @@ const LoginForm = () => {
             value={userFormData.email}
             required
           />
-          <Form.Control.Feedback type='invalid'>Please enter a valid email.</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='mb-3'>
@@ -74,7 +74,7 @@ const LoginForm = () => {
             value={userFormData.password}
             required
           />
-          <Form.Control.Feedback type='invalid'>Please enter your password.</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
           disabled={!(userFormData.email && userFormData.password)}
